@@ -27,6 +27,7 @@
       transition: 1s;
       opacity: 0.3;
 
+      &:hover,
       &.selected {
         transition: 1s;
         opacity: 1;

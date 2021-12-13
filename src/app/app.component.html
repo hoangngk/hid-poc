@@ -10,7 +10,13 @@
         ></app-scan-fingers>
       </div>
       <div>
-        <button mat-flat-button color="primary" mat-button matStepperNext>
+        <button
+          [disabled]="!stepModel.fingerprint"
+          mat-flat-button
+          color="primary"
+          mat-button
+          matStepperNext
+        >
           Next
         </button>
       </div>
@@ -60,7 +66,7 @@
         <p class="step-done-title">
           Your selected image will be published to the marketplace.
         </p>
-        <img src="/assets/images/{{ stepModel.selectedImage }}" />
+        <img src="./assets/images/{{ stepModel.selectedImage }}" />
         <div class="actions-btn">
           <button mat-raised-button mat-button matStepperPrevious>Back</button>
           <button
