@@ -13,6 +13,8 @@ import { ScanFingersComponent } from './components/scan-fingers/scan-fingers.com
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImageSelectionComponent } from './components/image-selection/image-selection.component';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
+import { FinishStepComponent } from './components/finish-step/finish-step.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     CapturePhotoComponent,
     ScanFingersComponent,
     ImageSelectionComponent,
+    FinishStepComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatStepperModule,
     MatSnackBarModule,
     MatGridListModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

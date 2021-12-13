@@ -4,6 +4,7 @@ import {
   ViewChild,
   EventEmitter,
   Output,
+  Input,
 } from '@angular/core';
 
 @Component({
@@ -12,6 +13,7 @@ import {
   styleUrls: ['./capture-photo.component.scss'],
 })
 export class CapturePhotoComponent {
+  @Input() public capturedPhoto: string;
   @Output() public captured = new EventEmitter();
 
   @ViewChild('video')
@@ -19,7 +21,6 @@ export class CapturePhotoComponent {
   @ViewChild('canvas')
   public canvas: ElementRef;
 
-  public photo: any;
   public isPhotoCaptured: boolean;
 
   constructor() {
@@ -40,8 +41,8 @@ export class CapturePhotoComponent {
     this.canvas.nativeElement
       .getContext('2d')
       .drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    this.photo = this.canvas.nativeElement.toDataURL('image/png');
-    this.captured.emit(this.photo);
+    const photo = this.canvas.nativeElement.toDataURL('image/png');
+    this.captured.emit(photo);
     setTimeout(() => {
       this.isPhotoCaptured = true;
     }, 1000);

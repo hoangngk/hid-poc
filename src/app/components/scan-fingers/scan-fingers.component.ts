@@ -29,17 +29,18 @@ enum StatusColor {
 export class ScanFingersComponent implements OnInit {
   private reader!: FingerprintReader;
 
+  @Input() public fingerprint: Base64String;
+
   @Input() public isReaderConnected: boolean;
   @Output() public isReaderConnectedChange = new EventEmitter<boolean>();
 
   @Input() public step: number;
   @Output() public stepChange = new EventEmitter<number>();
 
-  @Output() public updateSampleAcquired = new EventEmitter<Base64UrlString>();
+  @Output() public updateSampleAcquired = new EventEmitter<Base64String>();
 
   public scanStatus: ScanStatus;
   public eScanStatus = ScanStatus;
-  public fingerprintImgString: SafeUrl;
 
   constructor(private domSanitizer: DomSanitizer) {
     this.isReaderConnected = false;
@@ -93,6 +94,12 @@ export class ScanFingersComponent implements OnInit {
     }
   }
 
+  get fingerprintPhoto(): SafeUrl {
+    return this.domSanitizer.bypassSecurityTrustUrl(
+      `data:image/png;base64, ${this.fingerprint}`
+    );
+  }
+
   private handleFingerprintDeviceEvent = async () => {
     this.reader.on('DeviceConnected', () => {
       this.handleDeviceConnectionStatus(true);
@@ -119,14 +126,10 @@ export class ScanFingersComponent implements OnInit {
     if (!samples || !samples.length) {
       return;
     }
-    this.updateSampleAcquired.emit(samples[0] as unknown as Base64UrlString);
     const base64ImageData: Base64String = Base64.fromBase64Url(
       samples[0] as unknown as Base64UrlString
     );
-
-    this.fingerprintImgString = this.domSanitizer.bypassSecurityTrustUrl(
-      `data:image/png;base64, ${base64ImageData}`
-    );
+    this.updateSampleAcquired.emit(base64ImageData);
   };
 
   private handleQualityReport = (quality: QualityCode) => {

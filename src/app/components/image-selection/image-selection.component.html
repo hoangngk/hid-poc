@@ -3,7 +3,7 @@
     <h2>We are analyzing your biometrics information. Please wait…</h2>
   </div>
 </ng-template>
-<div *ngIf="timer$ | async; else analyzing">
+<div *ngIf="images && images.length; else analyzing">
   <h2 class="analyzing">{{ title }}</h2>
   <div
     [ngClass]="{ 'image-selection': true, selected: selectedImageIndex > -1 }"
@@ -11,9 +11,9 @@
     <div
       [ngClass]="{ images: true, selected: selectedImageIndex === i }"
       (click)="selectImage(i)"
-      *ngFor="let image of fakeImages; let i = index"
+      *ngFor="let image of images; let i = index"
     >
-      <img src="/assets/images/{{ image.src }}" />
+      <img [src]="image.src" />
     </div>
   </div>
 </div>

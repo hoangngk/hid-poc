@@ -1,8 +1,9 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Component } from '@angular/core';
-import { Base64UrlString } from '@digitalpersona/core';
+import { Base64String } from '@digitalpersona/core';
 
 interface IStepModel {
-  fingerprint: Base64UrlString;
+  fingerprint: Base64String;
   photo: any;
   selectedImage: string;
 }
@@ -15,29 +16,36 @@ interface IStepModel {
 export class AppComponent {
   public isFingeringDeviceConnected = false;
   public stepModel!: IStepModel;
-  public isImageGenerating = true;
+  public step = 0;
 
   constructor() {
     this.stepModel = {
       fingerprint: '',
       photo: '',
-      selectedImage: ''
+      selectedImage: '',
     };
   }
 
-  public updateSampleAcquired = (data: Base64UrlString) => {
+  public updateSampleAcquired = (data: Base64String) => {
     this.stepModel.fingerprint = data;
   };
 
-  public changeStep(step: any): void {
-    this.isImageGenerating = step.selectedIndex === 2;
+  public changeStep(step: StepperSelectionEvent): void {
+    this.step = step.selectedIndex;
+    if (step.selectedIndex === 0) {
+      this.stepModel = {
+        fingerprint: '',
+        photo: '',
+        selectedImage: '',
+      };
+    }
   }
 
-  public capturedPhoto(photo: Base64UrlString) {
+  public capturedPhoto(photo: Base64String) {
     this.stepModel.photo = photo;
   }
 
   public selectImage = (data: any) => {
-    this.stepModel.selectedImage = data.src;
+    this.stepModel.selectedImage = data.image64;
   };
 }

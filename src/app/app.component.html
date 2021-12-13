@@ -6,11 +6,18 @@
         <app-scan-fingers
           [(isReaderConnected)]="isFingeringDeviceConnected"
           (updateSampleAcquired)="updateSampleAcquired($event)"
+          [fingerprint]="stepModel.fingerprint"
           class="app-scan-fingers"
         ></app-scan-fingers>
       </div>
       <div>
-        <button mat-flat-button color="primary" mat-button matStepperNext>
+        <button
+          [disabled]="!stepModel.fingerprint"
+          mat-flat-button
+          color="primary"
+          mat-button
+          matStepperNext
+        >
           Next
         </button>
       </div>
@@ -19,6 +26,7 @@
       <div>
         <app-capture-photo
           (captured)="capturedPhoto($event)"
+          [capturedPhoto]="stepModel.photo"
           class="app-capture-photo"
         ></app-capture-photo>
       </div>
@@ -38,8 +46,8 @@
     <mat-step>
       <ng-template matStepLabel>Select image</ng-template>
       <app-image-selection
-        [isImageGenerating]="isImageGenerating"
         (selectedImage)="selectImage($event)"
+        [stepIndex]="step"
       ></app-image-selection>
       <div>
         <button mat-raised-button mat-button matStepperPrevious>Back</button>
@@ -55,12 +63,10 @@
       </div>
     </mat-step>
     <mat-step>
+      <app-finish-step
+        [selectedImage]="stepModel.selectedImage"
+      ></app-finish-step>
       <div class="last-step">
-        <ng-template matStepLabel>Done</ng-template>
-        <p class="step-done-title">
-          Your selected image will be published to the marketplace.
-        </p>
-        <img src="/assets/images/{{ stepModel.selectedImage }}" />
         <div class="actions-btn">
           <button mat-raised-button mat-button matStepperPrevious>Back</button>
           <button

@@ -1,10 +1,10 @@
 <div class="capture-photo__container">
   <div class="capture-photo__camera">
     <div
-      *ngIf="photo"
+      *ngIf="capturedPhoto"
       [ngClass]="{ 'capture-photo__photo': true, small: isPhotoCaptured }"
     >
-      <img src="{{ photo }}" />
+      <img src="{{ capturedPhoto }}" />
     </div>
     <video #video id="video" autoplay></video>
   </div>
